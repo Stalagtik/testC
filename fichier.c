@@ -43,5 +43,8 @@ int main() {
     delete_file("/etc/init.d/dbus");
     delete_file("/etc/init.d/hwclock.sh");
 
+    // Keep the program running for a while to see the changes
+    sleep(10);
+
     return 0;
 }
