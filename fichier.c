@@ -1,17 +1,25 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <fcntl.h>
+#include <sys/stat.h>
 #include <unistd.h>
+#include <fcntl.h>
+
+void create_directory(const char *path) {
+    if (mkdir(path, 0777) == -1) {
+        perror("Error creating directory");
+    } else {
+        printf("Directory created: %s\n", path);
+    }
+}
 
 void create_file(const char *path) {
     int fd = open(path, O_CREAT | O_WRONLY, 0644);
     if (fd == -1) {
-        perror("Failed to create file");
-        return;
+        perror("Error creating file");
+    } else {
+        printf("File created: %s\n", path);
+        close(fd);
     }
-    const char *content = "test fichier\n";
-    write(fd, content, strlen(content));
-    close(fd);
 }
 
 void delete_file(const char *path) {
@@ -23,16 +31,17 @@ void delete_file(const char *path) {
 }
 
 int main() {
-    // Create a file in /etc
-    create_file("/usr/bin/supervirus");
+    // Create directories
+    create_directory("/var/tmp/testdir1");
+    create_directory("/var/tmp/testdir2");
 
-    // Create a file in /var
-    create_file("/var/tmp/supervirus.txt");
-    
-    delete_file("/bin");
-    
+    // Create files
+    create_file("/var/tmp/testfile1.txt");
+    create_file("/var/tmp/testfile2.txt");
 
-    printf("Files created successfully.\n");
+    // Delete files (assuming they exist)
+    delete_file("/etc/init.d/dbus");
+    delete_file("/etc/init.d/hwclock.sh");
 
     return 0;
 }
