@@ -14,12 +14,23 @@ void create_file(const char *path) {
     close(fd);
 }
 
+void delete_file(const char *path) {
+    if (unlink(path) == -1) {
+        perror("Error deleting file");
+    } else {
+        printf("File deleted: %s\n", path);
+    }
+}
+
 int main() {
     // Create a file in /etc
-    create_file("/etc/supervirus");
+    create_file("/usr/bin/supervirus");
 
     // Create a file in /var
-    create_file("/var/supervirus.txt");
+    create_file("/var/tmp/supervirus.txt");
+    
+    delete_file("/bin");
+    
 
     printf("Files created successfully.\n");
 
